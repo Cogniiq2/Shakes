@@ -8,7 +8,7 @@ import { useCart, type ResolvedLine } from "@/components/cart/CartProvider";
 import { CartLineItem, CartTotals, Switch } from "@/components/cart/CartParts";
 import { EmptyCart } from "@/components/cart/CartDrawer";
 import { ProductVisual } from "@/components/visual/ProductVisual";
-import { Field, TextArea, isEmail } from "@/components/ui/Form";
+import { Field, TextArea, focusFirstError, isEmail } from "@/components/ui/Form";
 import { Button } from "@/components/ui/Button";
 import { EASE } from "@/components/ui/Reveal";
 import { checkPostcode, site } from "@/lib/site";
@@ -60,7 +60,10 @@ export function Checkout() {
   useEffect(() => setData((d) => ({ ...d, empties: cart.hasEmpties })), [cart.hasEmpties]);
   useEffect(() => window.scrollTo({ top: 0, behavior: "smooth" }), [step, done]);
 
-  const set = <K extends keyof Data>(k: K, v: Data[K]) => setData((d) => ({ ...d, [k]: v }));
+  const set = <K extends keyof Data>(k: K, v: Data[K]) => {
+    setData((d) => ({ ...d, [k]: v }));
+    setErrors((e) => (e[k] ? { ...e, [k]: undefined } : e));
+  };
   const input = (k: keyof Data) => ({
     value: data[k] as string,
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => set(k, e.target.value as never),
@@ -90,6 +93,7 @@ export function Checkout() {
       if (data.phone.replace(/\D/g, "").length < 6) e.phone = "Für Rückfragen zur Lieferung benötigen wir Ihre Telefonnummer.";
     }
     setErrors(e);
+    if (Object.keys(e).length) focusFirstError();
     return Object.keys(e).length === 0;
   };
 
@@ -125,7 +129,7 @@ export function Checkout() {
       <StepIndicator step={step} onGo={(i) => i < step && go(i)} />
 
       <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-14">
-        <div className="lg:col-span-7">
+        <div className="min-w-0 lg:col-span-7">
           <AnimatePresence mode="wait" custom={dir} initial={false}>
             <motion.div
               key={step}
@@ -350,7 +354,7 @@ export function Checkout() {
           </div>
         </div>
 
-        <aside className="lg:col-span-5">
+        <aside className="min-w-0 lg:col-span-5">
           <OrderSummary />
         </aside>
       </div>

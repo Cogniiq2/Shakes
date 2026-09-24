@@ -167,7 +167,7 @@ export function ProductStory() {
           initial={{ opacity: 0 }}
           animate={{ opacity: stageSeen ? 1 : 0 }}
           transition={{ duration: 0.9, ease: EASE }}
-          className="absolute inset-x-0 bottom-[34%] top-[12%] touch-pan-y lg:inset-y-0 lg:bottom-0 lg:top-0"
+          className="absolute inset-x-0 bottom-[31%] top-[11%] touch-pan-y lg:inset-y-0 lg:bottom-0 lg:top-0"
           style={{ maskImage: "linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%)" }}
           onPointerDown={(e) => {
             dragging.current = { x: e.clientX, start: pointer.current.drag };
@@ -282,14 +282,14 @@ function StoryCopy({ stop, dir, visible, last }: { stop: StoryStop; dir: number;
       <motion.p {...item(0)} className="eyebrow text-amber">
         {stop.kicker}
       </motion.p>
-      <motion.p {...item(1)} className="mt-3 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-ivory/50 lg:mt-5">
+      <motion.p {...item(1)} className="mt-3 hidden text-[0.72rem] font-bold uppercase tracking-[0.16em] text-ivory/50 sm:block lg:mt-5">
         {p.brand}
       </motion.p>
-      <motion.h3 {...item(2)} className="mt-1.5 text-[2.35rem] font-semibold leading-[0.95] tracking-[-0.04em] sm:text-[3rem] lg:mt-3 lg:text-[clamp(3.4rem,5.4vw,5.6rem)]">
+      <motion.h3 {...item(2)} className="mt-2 text-[2.2rem] font-semibold leading-[0.95] tracking-[-0.04em] sm:text-[3rem] lg:mt-3 lg:text-[clamp(3.4rem,5.4vw,5.6rem)]">
         {l1}
         {l2 && <span className="serif-accent block text-ivory/90">{l2}</span>}
       </motion.h3>
-      <motion.p {...item(3)} className="mt-3 max-w-md text-[0.98rem] leading-relaxed text-ivory/70 lg:mt-6 lg:text-[1.1rem]">
+      <motion.p {...item(3)} className="mt-2 max-w-md text-[0.95rem] leading-relaxed text-ivory/70 lg:mt-6 lg:text-[1.1rem]">
         {stop.line}
       </motion.p>
       <motion.div {...item(4)} className="mt-4 flex items-end gap-6 lg:mt-8">
@@ -310,7 +310,7 @@ function StoryCopy({ stop, dir, visible, last }: { stop: StoryStop; dir: number;
           ))}
         </ul>
       </motion.div>
-      <motion.div {...item(5)} className="mt-5 flex items-center gap-2.5 lg:mt-9">
+      <motion.div {...item(5)} className="mt-4 flex items-center gap-2.5 lg:mt-9">
         <Button href={`/sortiment/${p.slug}`} variant="light" arrow className="pointer-events-auto flex-1 sm:flex-none">
           Produkt ansehen
         </Button>
@@ -383,7 +383,7 @@ function PosterBottle({ stop, index, f, desktop }: { stop: StoryStop; index: num
   const opacity = useTransform(f, (v) => (Math.abs(index - v) < 1.4 ? 1 : 0));
   const p = stop.product;
   return (
-    <div className={cn("absolute flex -translate-x-1/2 justify-center", desktop ? "bottom-[16%] left-[40%] h-[60%]" : "bottom-[4%] left-1/2 h-[70%]")}>
+    <div className={cn("absolute flex -translate-x-1/2 justify-center", desktop ? "bottom-[16%] left-[40%] h-[60%]" : "bottom-[6%] left-1/2 h-[80%]")}>
       <motion.div style={{ x, scale, rotate, opacity }} className="flex h-full origin-bottom justify-center">
         <Bottle visual={p.visual} id={`poster-${p.slug}`} brand={p.brand} title={p.variety} className="h-full w-auto drop-shadow-[0_40px_40px_rgba(0,0,0,0.45)]" />
       </motion.div>

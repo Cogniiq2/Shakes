@@ -42,7 +42,7 @@ export default function KontaktPage() {
               <a
                 href={href}
                 {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                className={`group flex h-full min-h-[240px] flex-col justify-between rounded-[18px] p-7 transition-all duration-500 ease-[var(--ease-premium)] hover:-translate-y-1 sm:p-8 ${dark ? "bg-bottle text-ivory hover:bg-bottle-700" : "border border-line bg-paper hover:border-ink/25 hover:shadow-[0_24px_48px_-30px_rgba(0,0,0,0.3)]"}`}
+                className={`group flex h-full min-h-[190px] flex-col justify-between rounded-[18px] p-7 md:min-h-[240px] transition-all duration-500 ease-[var(--ease-premium)] hover:-translate-y-1 sm:p-8 ${dark ? "bg-bottle text-ivory hover:bg-bottle-700" : "border border-line bg-paper hover:border-ink/25 hover:shadow-[0_24px_48px_-30px_rgba(0,0,0,0.3)]"}`}
               >
                 <div className="flex items-center justify-between">
                   <span className={`grid size-12 place-items-center rounded-full ${dark ? "bg-ivory/10 text-amber" : "bg-stone text-bottle"}`}>

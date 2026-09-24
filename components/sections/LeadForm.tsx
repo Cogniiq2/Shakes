@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Check, RotateCcw } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Consent, Field, Select, TextArea, isEmail } from "@/components/ui/Form";
+import { Consent, Field, Select, TextArea, focusFirstError, isEmail } from "@/components/ui/Form";
 import { Button } from "@/components/ui/Button";
 import { EASE } from "@/components/ui/Reveal";
 import { site } from "@/lib/site";
@@ -41,7 +41,7 @@ export function LeadForm() {
     if (!v.type) err.type = "Bitte wählen Sie die Art des Betriebs.";
     if (!v.consent) err.consent = "Bitte bestätigen Sie die Einwilligung.";
     setErrors(err);
-    if (Object.keys(err).length) return;
+    if (Object.keys(err).length) return focusFirstError();
     setStatus("sending");
     setTimeout(() => setStatus("done"), 1100);
   };

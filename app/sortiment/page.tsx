@@ -27,11 +27,11 @@ export default async function SortimentPage({ searchParams }: { searchParams: Pr
   return (
     <>
       <section className="pt-[104px] lg:pt-[128px]">
-        <div className="container-x pb-10 lg:pb-14">
+        <div className="container-x pb-7 lg:pb-14">
           <Reveal>
             <Breadcrumb items={[{ label: "Sortiment" }]} />
           </Reveal>
-          <div className="mt-10 grid gap-8 lg:mt-14 lg:grid-cols-12 lg:items-end">
+          <div className="mt-7 grid gap-5 lg:mt-14 lg:grid-cols-12 lg:items-end lg:gap-8">
             <div className="lg:col-span-8">
               <Reveal delay={0.05}>
                 <Eyebrow>Unser Sortiment</Eyebrow>

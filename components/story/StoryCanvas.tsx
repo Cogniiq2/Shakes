@@ -66,9 +66,9 @@ function Rig({ layout }: { layout: "desktop" | "mobile" }) {
   useEffect(() => {
     const cam = camera as THREE.PerspectiveCamera;
     if (layout === "mobile") {
-      cam.position.set(0, 1.5, 9.2);
+      cam.position.set(0, 1.42, 6.9);
       cam.fov = 30;
-      cam.lookAt(0, 1.38, 0);
+      cam.lookAt(0, 1.3, 0);
     } else {
       cam.position.set(0, 1.45, 9.6);
       cam.fov = 26;

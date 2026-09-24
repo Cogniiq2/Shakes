@@ -87,7 +87,7 @@ export function ShopClient({ initial }: { initial: Partial<Filters> }) {
       </div>
 
       {/* Kategorie-Tabs */}
-      <div ref={topRef} className="sticky top-[67px] z-30 mt-8 border-b border-line bg-ivory/90 backdrop-blur-xl">
+      <div ref={topRef} className="sticky top-[67px] z-30 mt-5 border-b sm:mt-8 border-line bg-ivory/90 backdrop-blur-xl">
         <div className="container-x flex items-center gap-4">
           <div role="tablist" aria-label="Kategorien" className="no-scrollbar -mx-1 flex flex-1 gap-1 overflow-x-auto px-1 py-3">
             {tabs.map((t) => {

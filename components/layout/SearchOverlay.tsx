@@ -74,7 +74,7 @@ export function SearchOverlay() {
                 id="global-search"
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="Getränk, Marke oder Sorte suchen …"
+                placeholder="Getränk oder Marke suchen …"
                 autoComplete="off"
                 enterKeyHint="search"
                 className="h-12 min-w-0 flex-1 bg-transparent text-[1.15rem] font-medium tracking-[-0.01em] outline-none placeholder:text-muted/70 sm:text-[1.35rem]"

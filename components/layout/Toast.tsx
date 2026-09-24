@@ -8,14 +8,14 @@ import { ProductVisual } from "@/components/visual/ProductVisual";
 export function Toast() {
   const { toast, dismissToast, openDrawer } = useCart();
   return (
-    <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-0 z-[60] flex justify-center p-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:justify-end md:p-6">
+    <div aria-live="polite" className="pointer-events-none fixed inset-x-0 top-[72px] z-[60] flex justify-center px-3 md:bottom-0 md:top-auto md:justify-end md:p-6">
       <AnimatePresence>
         {toast && (
           <motion.div
             key={toast.id}
-            initial={{ opacity: 0, y: 24, scale: 0.96 }}
+            initial={{ opacity: 0, y: -16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 12, scale: 0.98 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
             transition={{ type: "spring", stiffness: 420, damping: 32 }}
             className="pointer-events-auto flex w-full max-w-[400px] items-center gap-3 rounded-[14px] bg-ink p-2.5 pr-3 text-ivory shadow-[0_24px_60px_-20px_rgba(0,0,0,0.55)]"
           >

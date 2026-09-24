@@ -35,12 +35,12 @@ export function AreaExplorer() {
 
   return (
     <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
-      <div className="lg:col-span-6">
+      <div className="min-w-0 lg:col-span-6">
         <div className="relative overflow-hidden rounded-[20px] border border-line bg-paper p-4 sm:p-8 lg:sticky lg:top-28">
           <DeliveryMap highlight={hl} />
         </div>
       </div>
-      <div className="lg:col-span-6">
+      <div className="min-w-0 lg:col-span-6">
         <DeliveryChecker onResult={setHl} />
         <div className="mt-14">
           <p className="eyebrow text-amber-deep">Regelmäßige Belieferung · Mo–Fr</p>

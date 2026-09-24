@@ -24,14 +24,14 @@ export function Hero() {
             <span aria-hidden className="h-px w-6 bg-amber-deep/60" />
             Getränkeheimdienst Bayreuth
           </motion.p>
-          <h1 className="display-1 mt-6 text-ink">
+          <h1 className="display-1 mt-6 text-ink lg:text-[min(5.9vw,5.5rem)]">
             <span className="block overflow-hidden pb-[0.06em]">
-              <motion.span className="block" initial={{ y: "105%" }} animate={{ y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.1 }}>
+              <motion.span className="block whitespace-nowrap" initial={{ y: "105%" }} animate={{ y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.1 }}>
                 Gute Getränke.
               </motion.span>
             </span>
             <span className="block overflow-hidden pb-[0.12em]">
-              <motion.span className="serif-accent block text-bottle" initial={{ y: "105%" }} animate={{ y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.2 }}>
+              <motion.span className="serif-accent block whitespace-nowrap text-bottle" initial={{ y: "105%" }} animate={{ y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.2 }}>
                 Direkt zu Ihnen.
               </motion.span>
             </span>

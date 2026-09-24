@@ -77,7 +77,7 @@ export function Consent({ checked, onChange, error }: { checked: boolean; onChan
   return (
     <div>
       <label htmlFor={id} className="flex cursor-pointer gap-3 text-[0.85rem] leading-relaxed text-muted">
-        <input id={id} type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="mt-1 size-[18px] shrink-0 cursor-pointer accent-[#102A23]" />
+        <input id={id} type="checkbox" aria-invalid={!!error} checked={checked} onChange={(e) => onChange(e.target.checked)} className="mt-1 size-[18px] shrink-0 cursor-pointer accent-[#102A23]" />
         <span>
           Ich bin einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage verwendet werden. Details in der{" "}
           <a href="/datenschutz" className="font-semibold text-ink underline underline-offset-2">
@@ -92,3 +92,12 @@ export function Consent({ checked, onChange, error }: { checked: boolean; onChan
 }
 
 export const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+
+/** Nach fehlgeschlagener Validierung das erste fehlerhafte Feld fokussieren */
+export function focusFirstError() {
+  requestAnimationFrame(() => {
+    const el = document.querySelector<HTMLElement>('[aria-invalid="true"]');
+    el?.focus({ preventScroll: true });
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+}
