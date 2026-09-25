@@ -8,10 +8,25 @@ voll klickbar und simulieren Erfolgszustände.
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
-npm run build && npm start   # Produktionsmodus (für die Präsentation empfohlen)
+npm run dev          # Entwicklung: http://localhost:3000
+npm run build        # statischer Export nach /out
+npm run preview      # /out lokal ausliefern (http://localhost:3000)
 npm run typecheck
 ```
+
+## Deployment (Cloudflare Pages)
+
+Die Seite ist ein vollständig statischer Export (`output: "export"` in `next.config.ts`), alle URLs liegen unter `/`.
+
+| Einstellung | Wert |
+| --- | --- |
+| Framework preset | None (oder „Next.js (Static HTML Export)“) |
+| Build command | `npm run build` |
+| Build output directory | `out` |
+| Node-Version | 22 (über `.nvmrc`) |
+
+`public/_headers` setzt Langzeit-Caching für gehashte Assets. `404.html` wird von Cloudflare automatisch verwendet.
+Filter im Sortiment laufen clientseitig über Query-Parameter (`/sortiment/?kategorie=bier`, `?marke=…`, `?q=…`).
 
 ## Stack
 

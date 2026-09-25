@@ -2,7 +2,9 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Info, Search, SlidersHorizontal, X } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { brands } from "@/data/products";
 import { categories, type CategorySlug } from "@/data/categories";
 import { products } from "@/data/products";
 import { ProductCard } from "./ProductCard";
@@ -45,7 +47,7 @@ export function ShopClient({ initial }: { initial: Partial<Filters> }) {
     if (filters.q) params.set("q", filters.q);
     if (filters.brands.length === 1) params.set("marke", filters.brands[0]);
     const qs = params.toString();
-    window.history.replaceState(null, "", qs ? `/sortiment?${qs}` : "/sortiment");
+    window.history.replaceState(null, "", qs ? `${window.location.pathname}?${qs}` : window.location.pathname);
   }, [filters.category, filters.q, filters.brands]);
 
   useEffect(() => {
@@ -305,5 +307,27 @@ export function MobileCartBar() {
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+/** Liest Filter aus der URL (?kategorie, ?q, ?marke) – funktioniert auch im statischen Export */
+function ShopFromParams() {
+  const sp = useSearchParams();
+  const kat = sp.get("kategorie") ?? "";
+  const q = sp.get("q") ?? "";
+  const marke = sp.get("marke") ?? "";
+  const initial: Partial<Filters> = {
+    category: categories.some((c) => c.slug === kat) ? (kat as CategorySlug) : "alle",
+    q,
+    brands: marke && brands.includes(marke) ? [marke] : [],
+  };
+  return <ShopClient key={`${kat}-${q}-${marke}`} initial={initial} />;
+}
+
+export function Shop() {
+  return (
+    <Suspense fallback={<ShopClient initial={{}} />}>
+      <ShopFromParams />
+    </Suspense>
   );
 }

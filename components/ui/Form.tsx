@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import type React from "react";
 import { useId } from "react";
@@ -80,9 +81,9 @@ export function Consent({ checked, onChange, error }: { checked: boolean; onChan
         <input id={id} type="checkbox" aria-invalid={!!error} checked={checked} onChange={(e) => onChange(e.target.checked)} className="mt-1 size-[18px] shrink-0 cursor-pointer accent-[#102A23]" />
         <span>
           Ich bin einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage verwendet werden. Details in der{" "}
-          <a href="/datenschutz" className="font-semibold text-ink underline underline-offset-2">
+          <Link href="/datenschutz" className="font-semibold text-ink underline underline-offset-2">
             Datenschutzerklärung
-          </a>
+          </Link>
           .
         </span>
       </label>
