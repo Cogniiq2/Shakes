@@ -1,11 +1,13 @@
 import type { NextConfig } from "next";
 
 /**
- * Statischer Export für Cloudflare Pages: `npm run build` erzeugt den kompletten Auftritt in /out.
- * Alle URLs liegen direkt unter "/" (kein basePath).
+ * Standard-Build: für Cloudflare Workers via OpenNext (`npx opennextjs-cloudflare build`).
+ * Optional: `npm run build:static` erzeugt einen reinen statischen Export in /out.
  */
+const staticExport = process.env.NEXT_STATIC_EXPORT === "1";
+
 const nextConfig: NextConfig = {
-  output: "export",
+  ...(staticExport ? { output: "export" as const } : {}),
   trailingSlash: true,
   images: { unoptimized: true },
   reactStrictMode: true,

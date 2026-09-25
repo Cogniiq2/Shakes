@@ -8,24 +8,24 @@ voll klickbar und simulieren Erfolgszustände.
 
 ```bash
 npm install
-npm run dev          # Entwicklung: http://localhost:3000
-npm run build        # statischer Export nach /out
-npm run preview      # /out lokal ausliefern (http://localhost:3000)
+npm run dev            # Entwicklung: http://localhost:3000
+npm run preview        # OpenNext-Build + lokale Vorschau im Cloudflare-Worker-Runtime
+npm run build:static   # optional: reiner statischer Export nach /out
 npm run typecheck
 ```
 
-## Deployment (Cloudflare Pages)
+## Deployment (Cloudflare Workers via OpenNext)
 
-Die Seite ist ein vollständig statischer Export (`output: "export"` in `next.config.ts`), alle URLs liegen unter `/`.
+Konfiguration: `wrangler.jsonc` + `open-next.config.ts`. Der Worker heißt **`shakes`**; die Self-Reference-Bindung
+`WORKER_SELF_REFERENCE` zeigt auf denselben Namen (beide müssen identisch sein).
 
 | Einstellung | Wert |
 | --- | --- |
-| Framework preset | None (oder „Next.js (Static HTML Export)“) |
-| Build command | `npm run build` |
-| Build output directory | `out` |
+| Build command | `npx opennextjs-cloudflare build` |
+| Deploy command | `npx opennextjs-cloudflare deploy` |
 | Node-Version | 22 (über `.nvmrc`) |
 
-`public/_headers` setzt Langzeit-Caching für gehashte Assets. `404.html` wird von Cloudflare automatisch verwendet.
+Alle Seiten sind vorgerendert; es wird kein R2-Incremental-Cache benötigt.
 Filter im Sortiment laufen clientseitig über Query-Parameter (`/sortiment/?kategorie=bier`, `?marke=…`, `?q=…`).
 
 ## Stack
