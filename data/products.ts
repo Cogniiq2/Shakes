@@ -157,12 +157,12 @@ const seeds: Seed[] = [
   },
   {
     slug: "frucade-apfelschorle", brand: "Frucade", name: "Frucade Apfelschorle", variety: "Apfelschorle",
-    category: "saefte-schorlen", packQuantity: 12, bottleVolume: 0.7, price: null, deposit: 3.3, packageType: "Glas", returnType: "Mehrweg",
+    category: "saefte-schorlen", packQuantity: 20, bottleVolume: 0.5, price: null, deposit: 3.1, packageType: "Glas", returnType: "Mehrweg",
     visual: { shape: "juice", glass: "clear", liquid: "#DDA946", label: "#F2E7C9", labelInk: "#6B8E23", cap: "#6B8E23", crate: "#6B8E23" },
   },
   {
-    slug: "libella-orange", brand: "Libella", name: "Libella Orange", variety: "Orangenlimonade",
-    category: "saefte-schorlen", packQuantity: 12, bottleVolume: 0.7, price: null, deposit: 3.3, packageType: "Glas", returnType: "Mehrweg",
+    slug: "libella-orange", brand: "Libella", name: "Libella Orangen-Limonade", variety: "Orangenlimonade",
+    category: "saefte-schorlen", packQuantity: 20, bottleVolume: 0.5, price: null, deposit: 3.1, packageType: "Glas", returnType: "Mehrweg",
     visual: { shape: "juice", glass: "clear", liquid: "#EE9A2A", label: "#F7E5B5", labelInk: "#C4561B", cap: "#C4561B", crate: "#C4561B" },
   },
 

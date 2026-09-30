@@ -29,10 +29,35 @@
     "sm": "/products/fritz-kola-sm.webp",
     "aspect": 0.2702
   },
+  "frucade-apfelschorle": {
+    "src": "/products/frucade-apfelschorle.webp",
+    "sm": "/products/frucade-apfelschorle-sm.webp",
+    "aspect": 0.252
+  },
+  "gerolsteiner-sprudel": {
+    "src": "/products/gerolsteiner-sprudel.webp",
+    "sm": "/products/gerolsteiner-sprudel-sm.webp",
+    "aspect": 0.2633
+  },
+  "jever-fun": {
+    "src": "/products/jever-fun.webp",
+    "sm": "/products/jever-fun-sm.webp",
+    "aspect": 0.2552
+  },
+  "jever-pils": {
+    "src": "/products/jever-pils.webp",
+    "sm": "/products/jever-pils-sm.webp",
+    "aspect": 0.2521
+  },
   "kulmbacher-lager-hell": {
     "src": "/products/kulmbacher-lager-hell.webp",
     "sm": "/products/kulmbacher-lager-hell-sm.webp",
     "aspect": 0.2627
+  },
+  "libella-orange": {
+    "src": "/products/libella-orange.webp",
+    "sm": "/products/libella-orange-sm.webp",
+    "aspect": 0.2667
   },
   "maisels-weisse-alkoholfrei": {
     "src": "/products/maisels-weisse-alkoholfrei.webp",
