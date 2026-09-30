@@ -34,10 +34,30 @@
     "sm": "/products/kulmbacher-lager-hell-sm.webp",
     "aspect": 0.2627
   },
+  "maisels-weisse-alkoholfrei": {
+    "src": "/products/maisels-weisse-alkoholfrei.webp",
+    "sm": "/products/maisels-weisse-alkoholfrei-sm.webp",
+    "aspect": 0.26
+  },
   "maisels-weisse-original": {
     "src": "/products/maisels-weisse-original.webp",
     "sm": "/products/maisels-weisse-original-sm.webp",
     "aspect": 0.2536
+  },
+  "moenchshof-kellerbier": {
+    "src": "/products/moenchshof-kellerbier.webp",
+    "sm": "/products/moenchshof-kellerbier-sm.webp",
+    "aspect": 0.2595
+  },
+  "moenchshof-natur-radler": {
+    "src": "/products/moenchshof-natur-radler.webp",
+    "sm": "/products/moenchshof-natur-radler-sm.webp",
+    "aspect": 0.2578
+  },
+  "paulaner-spezi": {
+    "src": "/products/paulaner-spezi.webp",
+    "sm": "/products/paulaner-spezi-sm.webp",
+    "aspect": 0.254
   },
   "plose-naturale": {
     "src": "/products/plose-naturale.webp",
@@ -48,5 +68,10 @@
     "src": "/products/spezi-original.webp",
     "sm": "/products/spezi-original-sm.webp",
     "aspect": 0.2515
+  },
+  "volvic-naturelle": {
+    "src": "/products/volvic-naturelle.webp",
+    "sm": "/products/volvic-naturelle-sm.webp",
+    "aspect": 0.2728
   }
 }
