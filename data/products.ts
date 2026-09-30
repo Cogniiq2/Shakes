@@ -282,9 +282,10 @@ export function getProduct(slug: string): Product | undefined {
 }
 
 export function getFeatured(): Product[] {
-  // Fotografierte Produkte zuerst, sonst Reihenfolge wie kuratiert
-  const list = featuredOrder.map((s) => getProduct(s)).filter((p): p is Product => Boolean(p));
-  return [...list.filter((p) => p.image), ...list.filter((p) => !p.image)];
+  // Startseite zeigt ausschließlich Produkte mit Originalfoto: erst kuratiert, dann aufgefüllt
+  const curated = featuredOrder.map((s) => getProduct(s)).filter((p): p is Product => Boolean(p?.image));
+  const fill = products.filter((p) => p.image && !curated.includes(p) && !p.gastroOnly);
+  return [...curated, ...fill].slice(0, 8);
 }
 
 export function getRelated(product: Product, limit = 4): Product[] {

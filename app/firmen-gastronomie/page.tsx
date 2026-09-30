@@ -50,7 +50,7 @@ export default function FirmenGastroPage() {
         breadcrumb={[{ label: "Firmen & Gastronomie" }]}
         title={
           <>
-            Getränkeversorgung,
+            Getränke&shy;versorgung,
             <span className="serif-accent block text-amber">auf die Ihr Betrieb zählen kann.</span>
           </>
         }

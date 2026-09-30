@@ -137,7 +137,7 @@
 
 @utility eyebrow {
   font-size: 0.72rem;
-  line-height: 1;
+  line-height: 1.5;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   font-weight: 700;
@@ -297,5 +297,15 @@
 @media (prefers-reduced-motion: reduce) {
   .animate-float {
     animation: none;
+  }
+}
+
+/* Lange deutsche Komposita in Headlines auf schmalen Screens sauber trennen */
+@media (max-width: 640px) {
+  h1,
+  h2 {
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    overflow-wrap: break-word;
   }
 }

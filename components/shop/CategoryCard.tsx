@@ -67,7 +67,14 @@ export function CategoryCard({ category, className, size = "md", index }: { cate
             );
           })}
         </div>
-      ) : null}
+      ) : (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -bottom-[0.16em] right-[-0.04em] select-none whitespace-nowrap font-serif text-[8.5rem] italic leading-none opacity-[0.1] transition-transform duration-[900ms] ease-[var(--ease-premium)] group-hover/cat:-translate-x-2 sm:text-[10rem]"
+        >
+          {category.name.split(" ")[0]}
+        </span>
+      )}
     </Link>
   );
 }

@@ -22,9 +22,9 @@ const steps = [
 
 export function ServiceSection() {
   return (
-    <section className="relative py-24 md:py-36">
+    <section className="relative py-20 md:py-36">
       <div className="container-x">
-        <div className="grid gap-10 lg:grid-cols-12">
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7">
             <SectionHeading eyebrow="Getränkeheimdienst in Bayreuth" title={<>Wir bringen den Getränkemarkt <span className="serif-accent text-bottle">zu Ihnen.</span></>} />
           </div>
@@ -33,14 +33,14 @@ export function ServiceSection() {
           </Reveal>
         </div>
 
-        <Stagger as="ol" className="mt-16 grid border-t border-line md:mt-24 md:grid-cols-3" gap={0.12}>
+        <Stagger as="ol" className="mt-12 grid border-t border-line md:mt-24 md:grid-cols-3" gap={0.12}>
           {steps.map((s, i) => (
-            <StaggerItem key={s.n} as="li" className={`group relative flex flex-col border-b border-line py-10 md:border-b-0 md:py-12 ${i > 0 ? "md:border-l md:pl-10" : ""} ${i < 2 ? "md:pr-10" : ""}`}>
-              <span aria-hidden className="font-serif text-[5.5rem] italic leading-[0.8] tracking-[-0.04em] text-amber/80 transition-transform duration-700 ease-[var(--ease-premium)] group-hover:-translate-y-1 md:text-[7rem]">
+            <StaggerItem key={s.n} as="li" className={`group relative grid grid-cols-[4.2rem_1fr] items-start gap-x-4 border-b border-line py-8 md:flex md:flex-col md:border-b-0 md:py-12 ${i > 0 ? "md:border-l md:pl-10" : ""} ${i < 2 ? "md:pr-10" : ""}`}>
+              <span aria-hidden className="row-span-2 font-serif text-[3.6rem] italic leading-[0.85] tracking-[-0.04em] text-amber/80 transition-transform duration-700 ease-[var(--ease-premium)] group-hover:-translate-y-1 md:text-[7rem]">
                 {s.n}
               </span>
-              <h3 className="mt-8 text-[1.45rem] font-semibold tracking-[-0.025em]">{s.title}</h3>
-              <p className="mt-3 max-w-xs text-[0.98rem] leading-relaxed text-muted">{s.copy}</p>
+              <h3 className="pt-1 text-[1.3rem] font-semibold tracking-[-0.025em] md:mt-8 md:pt-0 md:text-[1.45rem]">{s.title}</h3>
+              <p className="mt-2 max-w-xs md:mt-3 text-[0.98rem] leading-relaxed text-muted">{s.copy}</p>
             </StaggerItem>
           ))}
         </Stagger>
@@ -282,7 +282,7 @@ export function IndependentSection() {
           <Reveal delay={0.1} className="md:col-span-9">
             <p className="text-[1.6rem] font-semibold leading-[1.35] tracking-[-0.025em] text-ink/25 sm:text-[2rem] lg:text-[2.35rem]">
               {brands.map((b, i) => (
-                <span key={b}>
+                <span key={b} className="whitespace-nowrap">
                   <Link href={`/sortiment?marke=${encodeURIComponent(b)}`} className={regionalBrands.has(b) ? "text-bottle transition-colors hover:text-amber-deep" : "transition-colors hover:text-ink"}>
                     {b}
                   </Link>
@@ -310,13 +310,16 @@ export function RatingSection() {
             {reviews.rating.toLocaleString("de-DE")}
             <span className="text-[0.4em] italic text-muted"> / {reviews.max}</span>
           </p>
+          <div className="mt-6">
+            <RatingDisplay compact hideScore />
+          </div>
         </Reveal>
         <div className="md:col-span-6 md:col-start-7">
           <Reveal>
-            <RatingDisplay />
+            <p className="eyebrow text-amber-deep">Was Kunden sagen</p>
           </Reveal>
           <Reveal delay={0.08}>
-            <h2 className="display-3 mt-8">Persönlicher Service wird vor Ort entschieden.</h2>
+            <h2 className="display-3 mt-5">Persönlicher Service wird vor Ort entschieden.</h2>
           </Reveal>
           <Reveal delay={0.14}>
             <a href={reviews.profileUrl} target="_blank" rel="noopener noreferrer" className="group mt-6 inline-flex items-center gap-2 text-[0.95rem] font-semibold">

@@ -62,7 +62,7 @@ export function PageHero({
           <Breadcrumb items={breadcrumb} light={dark} />
         </Reveal>
         <div className={cn("mt-10 grid gap-12 lg:mt-14", !!aside && "lg:grid-cols-12 lg:items-end lg:gap-10")}>
-          <div className={aside ? "lg:col-span-7" : "max-w-4xl"}>
+          <div className={cn("min-w-0", aside ? "lg:col-span-7" : "max-w-4xl")}>
             <Reveal delay={0.05}>
               <Eyebrow light={dark}>{eyebrow}</Eyebrow>
             </Reveal>
@@ -76,14 +76,14 @@ export function PageHero({
             )}
             {children && <Reveal delay={0.26} className="mt-9">{children}</Reveal>}
           </div>
-          {aside && <Reveal delay={0.2} className="lg:col-span-5">{aside}</Reveal>}
+          {aside && <Reveal delay={0.2} className="min-w-0 lg:col-span-5">{aside}</Reveal>}
         </div>
       </div>
     </section>
   );
 }
 
-export function RatingDisplay({ light, compact }: { light?: boolean; compact?: boolean }) {
+export function RatingDisplay({ light, compact, hideScore }: { light?: boolean; compact?: boolean; hideScore?: boolean }) {
   const full = Math.floor(reviews.rating);
   const partial = reviews.rating - full;
   return (
@@ -93,10 +93,14 @@ export function RatingDisplay({ light, compact }: { light?: boolean; compact?: b
       </span>
       <div>
         <div className="flex items-baseline gap-2">
-          <span className={cn("font-semibold tabular-nums tracking-[-0.03em]", compact ? "text-xl" : "text-[2rem]")}>
-            {reviews.rating.toLocaleString("de-DE")}
-          </span>
-          <span className={cn("text-sm", light ? "text-ivory/55" : "text-muted")}>/ {reviews.max}</span>
+          {!hideScore && (
+            <>
+              <span className={cn("font-semibold tabular-nums tracking-[-0.03em]", compact ? "text-xl" : "text-[2rem]")}>
+                {reviews.rating.toLocaleString("de-DE")}
+              </span>
+              <span className={cn("text-sm", light ? "text-ivory/55" : "text-muted")}>/ {reviews.max}</span>
+            </>
+          )}
           <span className="ml-1 flex" aria-hidden>
             {Array.from({ length: 5 }, (_, i) => (
               <span key={i} className="relative">

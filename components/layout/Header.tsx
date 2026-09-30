@@ -15,7 +15,9 @@ import { cn } from "@/lib/format";
 const DARK_HERO = ["/firmen-gastronomie"];
 
 export function Header() {
-  const pathname = usePathname();
+  const rawPath = usePathname();
+  // trailingSlash: "/firmen-gastronomie/" → "/firmen-gastronomie"
+  const pathname = rawPath.length > 1 ? rawPath.replace(/\/$/, "") : rawPath;
   const { count, openDrawer, setSearchOpen, menuOpen, setMenuOpen, bump, ready } = useCart();
   const [scrolled, setScrolled] = useState(false);
 
@@ -55,7 +57,7 @@ export function Header() {
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter,height] duration-500 ease-[var(--ease-premium)]",
           scrolled && !menuOpen
-            ? "bg-paper/82 shadow-[0_1px_0_rgba(21,25,23,0.07),0_12px_32px_-24px_rgba(21,25,23,0.35)] backdrop-blur-xl backdrop-saturate-150"
+            ? "bg-paper/[0.96] shadow-[0_1px_0_rgba(21,25,23,0.07),0_12px_32px_-24px_rgba(21,25,23,0.35)] backdrop-blur-xl backdrop-saturate-150"
             : "bg-transparent",
         )}
       >
@@ -93,10 +95,10 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-1 sm:gap-1.5">
-            <IconButton label="Suche öffnen" light={light} onClick={() => setSearchOpen(true)} className="hidden sm:inline-flex">
+            <IconButton label="Suche öffnen" light={light} onClick={() => setSearchOpen(true)} className="max-sm:hidden">
               <Search className="size-[20px]" strokeWidth={1.8} />
             </IconButton>
-            <IconButton label="Kundenkonto" light={light} href="/konto" className="hidden sm:inline-flex">
+            <IconButton label="Kundenkonto" light={light} href="/konto" className="max-sm:hidden">
               <User className="size-[20px]" strokeWidth={1.8} />
             </IconButton>
             <IconButton label={`Warenkorb, ${count} Artikel`} light={light} onClick={openDrawer}>

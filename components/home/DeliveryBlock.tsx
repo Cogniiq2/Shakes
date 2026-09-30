@@ -15,7 +15,7 @@ export function DeliveryBlock({ showLink = true, headingLevel = "h2" }: { showLi
   const scheduled = deliveryAreas.filter((a) => a.tier === "scheduled");
   return (
     <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-      <Reveal className="order-2 lg:order-1 lg:col-span-6">
+      <Reveal className="order-2 min-w-0 lg:order-1 lg:col-span-6">
         <div className="relative overflow-hidden rounded-[20px] border border-line bg-paper p-4 sm:p-8">
           <DeliveryMap highlight={hl} />
           <div className="pointer-events-none absolute left-5 top-5 flex flex-col gap-2 text-[0.72rem] font-semibold sm:left-8 sm:top-8">
@@ -24,7 +24,7 @@ export function DeliveryBlock({ showLink = true, headingLevel = "h2" }: { showLi
           </div>
         </div>
       </Reveal>
-      <div className="order-1 lg:order-2 lg:col-span-6">
+      <div className="order-1 min-w-0 lg:order-2 lg:col-span-6">
         <Reveal>
           <Eyebrow>Liefergebiet</Eyebrow>
         </Reveal>

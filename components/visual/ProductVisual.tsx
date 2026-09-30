@@ -76,27 +76,38 @@ export function ProductVisual({ product, variant = "card", className, priority }
   );
 }
 
-/** Platzhalter, solange kein freigegebenes Produktfoto vorliegt */
+/** Platzhalter, solange kein freigegebenes Produktfoto vorliegt – ruhig, typografisch, keine Fake-Flasche */
 function PhotoPending({ product, variant, className }: { product: Product; variant: "card" | "detail" | "thumb"; className?: string }) {
   const tone = getCategory(product.category).tone;
   const surface = CATEGORY_SURFACE[product.category];
+  const initial = product.brand.replace(/[^A-Za-zÄÖÜäöü]/g, "").charAt(0).toUpperCase();
   if (variant === "thumb") {
     return (
       <div className={cn("grid place-items-center overflow-hidden", className)} style={{ background: surface }}>
-        <span className="font-serif text-[1.5rem] italic leading-none" style={{ color: tone.accent }}>
-          {product.brand.charAt(0)}
+        <span className="font-serif text-[1.4rem] italic leading-none" style={{ color: tone.accent }}>
+          {initial}
         </span>
       </div>
     );
   }
+  const detail = variant === "detail";
   return (
-    <div className={cn("relative isolate flex flex-col items-center justify-center overflow-hidden px-6 text-center", className)} style={{ background: surface }}>
-      <div aria-hidden className="absolute inset-0 -z-10" style={{ background: "radial-gradient(60% 50% at 50% 42%, rgba(255,255,255,0.8), transparent 72%)" }} />
-      <p className="text-[0.66rem] font-bold uppercase tracking-[0.2em] text-muted">{product.brand}</p>
-      <p className={cn("mt-3 font-serif italic leading-[1.05] text-ink/80", variant === "detail" ? "text-[2.6rem]" : "text-[1.55rem]")}>{product.name}</p>
-      <p className="mt-3 text-[0.75rem] tabular-nums text-muted">{formatPack(product.packQuantity, product.bottleVolume)}</p>
-      <span className="mt-5 h-px w-10 bg-ink/15" />
-      <p className="mt-3 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-muted/80">Produktfoto folgt</p>
+    <div className={cn("relative isolate flex flex-col items-center justify-center overflow-hidden px-5 text-center", className)} style={{ background: surface }}>
+      <div aria-hidden className="absolute inset-0 -z-10" style={{ background: "radial-gradient(60% 50% at 50% 42%, rgba(255,255,255,0.85), transparent 72%)" }} />
+      <span
+        aria-hidden
+        className={cn("grid place-items-center rounded-full border font-serif italic leading-none", detail ? "size-28 text-[3.4rem]" : "size-16 text-[2rem] sm:size-20 sm:text-[2.4rem]")}
+        style={{ borderColor: `${tone.accent}55`, color: tone.accent }}
+      >
+        {initial}
+      </span>
+      <p className={cn("mt-4 font-bold uppercase text-muted", detail ? "text-[0.72rem] tracking-[0.22em]" : "text-[0.6rem] tracking-[0.18em]")}>{product.brand}</p>
+      {detail && (
+        <>
+          <p className="mt-3 max-w-md text-balance font-serif text-[2.4rem] italic leading-[1.05] text-ink/80">{product.name}</p>
+          <p className="mt-6 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-muted/80">Produktfoto folgt</p>
+        </>
+      )}
     </div>
   );
 }

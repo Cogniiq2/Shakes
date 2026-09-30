@@ -53,7 +53,7 @@ export function ProductCard({ product, className, priority }: { product: Product
           </Link>
         </h3>
         <p className="mt-1 text-[0.82rem] tabular-nums text-muted">
-          {formatPack(product.packQuantity, product.bottleVolume)} · {product.packageType} {product.returnType}
+          {formatPack(product.packQuantity, product.bottleVolume)}<span className="hidden sm:inline"> · {product.packageType} {product.returnType}</span>
         </p>
 
         <div className="mt-auto flex items-end justify-between gap-3 pt-5">
@@ -68,8 +68,8 @@ export function ProductCard({ product, className, priority }: { product: Product
               </>
             ) : (
               <>
-                <p className="text-[0.95rem] font-semibold leading-none">Preis auf Anfrage</p>
-                <p className="mt-1.5 text-[0.74rem] leading-tight text-muted">{product.deposit ? `+ ${formatEuro(product.deposit)} Pfand` : product.deposit === 0 ? "ohne Pfand" : "Pfand je Gebinde"}</p>
+                <p className="whitespace-nowrap text-[0.9rem] font-semibold leading-none sm:text-[0.95rem]"><span className="sm:hidden">Auf Anfrage</span><span className="max-sm:hidden">Preis auf Anfrage</span></p>
+                <p className="mt-1.5 text-[0.74rem] leading-tight text-muted">{product.deposit ? `+ ${formatEuro(product.deposit)} Pfand` : product.deposit === 0 ? "ohne Pfand" : "zzgl. Pfand"}</p>
               </>
             )}
           </div>
