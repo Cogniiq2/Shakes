@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import { Bottle } from "@/components/visual/Bottle";
+import { ProductPhoto } from "@/components/visual/ProductPhoto";
 import { getProduct } from "@/data/products";
 
 export default function NotFound() {
-  const p = getProduct("adelholzener-naturell")!;
+  const p = getProduct("plose-naturale")!;
   return (
     <section className="relative flex min-h-[88vh] items-center overflow-hidden pt-[104px]">
       <div className="container-x grid items-center gap-12 pb-20 lg:grid-cols-12">
@@ -37,7 +37,9 @@ export default function NotFound() {
         <div className="relative hidden h-[520px] lg:col-span-4 lg:col-start-9 lg:block" aria-hidden>
           <div className="absolute inset-0 rounded-full bg-mist blur-3xl" />
           <div className="relative flex h-full items-end justify-center">
-            <Bottle visual={{ ...p.visual, liquid: undefined }} id="404" brand={p.brand} title="Leer" className="h-[90%] w-auto rotate-[8deg]" />
+            <div className="h-[90%] origin-bottom rotate-[6deg]">
+              <ProductPhoto product={p} />
+            </div>
           </div>
         </div>
       </div>

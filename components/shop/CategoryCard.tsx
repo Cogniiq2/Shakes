@@ -2,8 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { Category } from "@/data/categories";
 import { products } from "@/data/products";
-import { Bottle } from "@/components/visual/Bottle";
-import { SHAPE_HEIGHT } from "@/components/visual/ProductVisual";
+import { ProductPhoto } from "@/components/visual/ProductPhoto";
 import { cn } from "@/lib/format";
 
 /** Art-direktierte Kategorie-Kachel mit individueller Flaschen-Komposition */
@@ -17,7 +16,10 @@ const COMPOSITION: Record<string, string[]> = {
 };
 
 export function CategoryCard({ category, className, size = "md", index }: { category: Category; className?: string; size?: "md" | "lg" | "wide"; index?: number }) {
-  const items = (COMPOSITION[category.slug] ?? []).map((s) => products.find((p) => p.slug === s)!).filter(Boolean);
+  // Nur echte Produktfotos – bevorzugte Reihenfolge, dann weitere fotografierte Produkte der Kategorie
+  const preferred = (COMPOSITION[category.slug] ?? []).map((s) => products.find((p) => p.slug === s)).filter((p) => p?.image);
+  const others = products.filter((p) => p.category === category.slug && p.image && !preferred.includes(p));
+  const items = [...preferred, ...others].filter((p): p is (typeof products)[number] => Boolean(p)).slice(0, size === "lg" ? 4 : 3);
   const count = products.filter((p) => p.category === category.slug).length;
   const mid = (items.length - 1) / 2;
 
@@ -43,23 +45,29 @@ export function CategoryCard({ category, className, size = "md", index }: { cate
           <p className="mt-4 text-[0.75rem] font-bold uppercase tracking-[0.14em] opacity-55">{count} Produkte online</p>
         </div>
       </div>
-      <div aria-hidden className="pointer-events-none absolute -right-2 bottom-0 flex h-[78%] items-end justify-end pr-5 sm:pr-7">
-        {items.map((p, i) => {
-          const h = SHAPE_HEIGHT[p.visual.shape];
-          const offset = i - mid;
-          return (
-            <div
-              key={p.slug}
-              className="-ml-[6%] h-full origin-bottom transition-transform duration-[900ms] ease-[var(--ease-premium)] first:ml-0"
-              style={{ transform: `scale(${1 - Math.abs(offset) * 0.1})`, zIndex: 10 - Math.abs(Math.round(offset * 2)) }}
-            >
-              <div className="flex h-full items-end transition-transform duration-[900ms] ease-[var(--ease-premium)] group-hover/cat:-translate-y-[4%]" style={{ transitionDelay: `${i * 50}ms` }}>
-                <Bottle visual={p.visual} id={`cat-${category.slug}-${i}`} brand={p.brand} className="h-full w-auto" style={{ height: `${h * 100}%` }} condensation={category.slug !== "wein-spezialitaeten"} />
+      {items.length > 0 ? (
+        <div aria-hidden className="pointer-events-none absolute bottom-[6%] right-5 flex h-[80%] items-end sm:right-7">
+          {items.map((p, i) => {
+            const offset = i - mid;
+            return (
+              <div
+                key={p.slug}
+                className="-ml-[3%] h-full first:ml-0"
+                style={{ zIndex: 10 - Math.abs(Math.round(offset * 2)) }}
+              >
+                <div
+                  className="flex h-full items-end transition-transform duration-[900ms] ease-[var(--ease-premium)] group-hover/cat:-translate-y-[3%]"
+                  style={{ transitionDelay: `${i * 50}ms` }}
+                >
+                  <div style={{ height: `${(p.heightCm / 31) * 100 * (1 - Math.abs(offset) * 0.06)}%` }}>
+                    <ProductPhoto product={p} size="sm" dark={category.tone.fg !== "#102A23" && category.tone.fg.toLowerCase().startsWith("#f")} />
+                  </div>
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      ) : null}
     </Link>
   );
 }

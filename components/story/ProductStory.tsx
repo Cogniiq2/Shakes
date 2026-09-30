@@ -20,6 +20,7 @@ import { ArrowRight, Check, Plus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { storyStops, type StoryStop } from "./storyData";
 import { Bottle } from "@/components/visual/Bottle";
+import { ProductPhoto } from "@/components/visual/ProductPhoto";
 import { Button } from "@/components/ui/Button";
 import { useCart } from "@/components/cart/CartProvider";
 import { EASE } from "@/components/ui/Reveal";
@@ -28,6 +29,8 @@ import { cn, formatEuro } from "@/lib/format";
 const StoryCanvas = dynamic(() => import("./StoryCanvas"), { ssr: false });
 
 const N = storyStops.length;
+/** Sind alle Stationen fotografiert, läuft die Geschichte vollständig mit Originalfotos – ohne WebGL */
+const PHOTO_STORY = storyStops.every((s) => s.product.image);
 
 /** Treppenfunktion: Haltephasen pro Produkt, weiche Übergänge dazwischen */
 function stair(p: number): number {
@@ -108,6 +111,8 @@ export function ProductStory() {
 
   // Pointer / Drag
   const pointer = useRef({ x: 0, y: 0, drag: 0 });
+  const px = useSpring(0, { stiffness: 60, damping: 16 });
+  const py = useSpring(0, { stiffness: 60, damping: 16 });
   const dragging = useRef<{ x: number; start: number } | null>(null);
   const onPointerMove = (e: React.PointerEvent) => {
     const r = stageRef.current?.getBoundingClientRect();
@@ -115,6 +120,8 @@ export function ProductStory() {
     if (e.pointerType === "mouse") {
       pointer.current.x = ((e.clientX - r.left) / r.width - 0.5) * 2;
       pointer.current.y = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      px.set(pointer.current.x);
+      py.set(pointer.current.y);
     }
     if (dragging.current) {
       const delta = (e.clientX - dragging.current.x) / r.width;
@@ -135,7 +142,7 @@ export function ProductStory() {
   const trackX = useTransform(f, [0, N - 1], ["0%", `${(100 * (N - 1)) / N}%`]);
 
   const stop = storyStops[active];
-  const showPoster = webgl === false || !canvasReady;
+  const showPoster = PHOTO_STORY || webgl === false || !canvasReady;
 
   return (
     <section ref={sectionRef} aria-label="Ausgewählt für Bayreuth" className="relative h-[520svh] bg-bottle lg:h-[560vh]">
@@ -147,6 +154,8 @@ export function ProductStory() {
         onPointerLeave={() => {
           pointer.current.x = 0;
           pointer.current.y = 0;
+          px.set(0);
+          py.set(0);
           endDrag();
         }}
         onPointerUp={endDrag}
@@ -176,10 +185,10 @@ export function ProductStory() {
           {/* Poster / Fallback: nie eine leere Fläche */}
           <div className={cn("absolute inset-0 transition-opacity duration-700", showPoster ? "opacity-100" : "opacity-0")}>
             {storyStops.map((s, i) => (
-              <PosterBottle key={s.product.slug} stop={s} index={i} f={f} desktop={desktop} />
+              <PosterBottle key={s.product.slug} stop={s} index={i} f={f} desktop={desktop} px={px} py={py} enter={enterMv} />
             ))}
           </div>
-          {mounted && webgl && (
+          {!PHOTO_STORY && mounted && webgl && (
             <StoryCanvas
               stops={storyStops}
               progress={f}
@@ -258,6 +267,8 @@ function StoryTitle() {
 function splitName(name: string): [string, string | null] {
   const map: Record<string, [string, string | null]> = {
     "Bayreuther Hell": ["Bayreuther", "Hell"],
+    "Kulmbacher Lager Hell": ["Kulmbacher", "Lager Hell"],
+    "Plose Naturale": ["Plose", "Naturale"],
     "Adelholzener Naturell": ["Adelholzener", "Naturell"],
     "Maisel's Weisse Original": ["Maisel's Weisse", "Original"],
     "Fritz-Kola": ["Fritz-Kola", null],
@@ -371,21 +382,56 @@ function Midground({ f, desktop }: { f: MotionValue<number>; desktop: boolean })
   );
 }
 
-/** SVG-Poster: identische Choreografie, bis WebGL bereit ist (oder als Fallback) */
-function PosterBottle({ stop, index, f, desktop }: { stop: StoryStop; index: number; f: MotionValue<number>; desktop: boolean }) {
+/** Produktbühne: Originalfoto (bzw. SVG-Poster bis WebGL bereit ist) mit identischer Choreografie */
+function PosterBottle({
+  stop,
+  index,
+  f,
+  desktop,
+  px,
+  py,
+  enter,
+}: {
+  stop: StoryStop;
+  index: number;
+  f: MotionValue<number>;
+  desktop: boolean;
+  px: MotionValue<number>;
+  py: MotionValue<number>;
+  enter: MotionValue<number>;
+}) {
   const x = useTransform(f, (v) => {
     const d = index - v;
     const eased = Math.sign(d) * Math.pow(Math.abs(d), 1.25);
     return `${(eased * (desktop ? 36 : 62)).toFixed(2)}vw`;
   });
   const scale = useTransform(f, (v) => +(1 - Math.min(Math.abs(index - v), 1) * 0.26).toFixed(3));
-  const rotate = useTransform(f, (v) => +((index - v) * 4).toFixed(2));
-  const opacity = useTransform(f, (v) => (Math.abs(index - v) < 1.4 ? 1 : 0));
+  const rotate = useTransform(f, (v) => +((index - v) * 5).toFixed(2));
+  // Ausblenden zwischen 35 % und 85 % des Weges – ruhende Nachbarn sind unsichtbar
+  const opacity = useTransform(f, (v) => {
+    const t = Math.min(Math.max((Math.abs(index - v) - 0.35) / 0.5, 0), 1);
+    return +(1 - t * t * (3 - 2 * t)).toFixed(3);
+  });
+  const blur = useTransform(f, (v) => `blur(${Math.min(Math.abs(index - v), 1) * 3}px)`);
+  // Pointer-Parallax nur für die aktive Flasche
+  const focus = useTransform(f, (v) => Math.max(0, 1 - Math.abs(index - v) * 2));
+  const ppx = useTransform(() => px.get() * 14 * focus.get());
+  const ppy = useTransform(() => py.get() * 8 * focus.get() + (1 - enter.get()) * 70);
   const p = stop.product;
+  const h = (desktop ? 66 : 84) * (p.heightCm / 31);
+
   return (
-    <div className={cn("absolute flex -translate-x-1/2 justify-center", desktop ? "bottom-[16%] left-[40%] h-[60%]" : "bottom-[6%] left-1/2 h-[80%]")}>
-      <motion.div style={{ x, scale, rotate, opacity }} className="flex h-full origin-bottom justify-center">
-        <Bottle visual={p.visual} id={`poster-${p.slug}`} brand={p.brand} title={p.variety} className="h-full w-auto drop-shadow-[0_40px_40px_rgba(0,0,0,0.45)]" />
+    <div className={cn("absolute flex -translate-x-1/2 justify-center", desktop ? "bottom-[17%] left-[40%]" : "bottom-[8%] left-1/2")} style={{ height: `${h}%` }}>
+      <motion.div style={{ x, scale, rotate, opacity, filter: p.image ? blur : undefined }} className="flex h-full origin-bottom justify-center">
+        <motion.div style={{ x: ppx, y: ppy }} className="h-full">
+          {p.image ? (
+            <div className="h-full animate-float">
+              <ProductPhoto product={p} dark priority={index === 0} imgClassName="drop-shadow-[0_40px_45px_rgba(0,0,0,0.5)]" />
+            </div>
+          ) : (
+            <Bottle visual={p.visual} id={`poster-${p.slug}`} brand={p.brand} title={p.variety} className="h-full w-auto drop-shadow-[0_40px_40px_rgba(0,0,0,0.45)]" />
+          )}
+        </motion.div>
       </motion.div>
     </div>
   );

@@ -1,0 +1,27 @@
+{
+  "fritz-kola": {
+    "src": "/products/fritz-kola.webp",
+    "sm": "/products/fritz-kola-sm.webp",
+    "aspect": 0.2702
+  },
+  "kulmbacher-lager-hell": {
+    "src": "/products/kulmbacher-lager-hell.webp",
+    "sm": "/products/kulmbacher-lager-hell-sm.webp",
+    "aspect": 0.2627
+  },
+  "maisels-weisse-original": {
+    "src": "/products/maisels-weisse-original.webp",
+    "sm": "/products/maisels-weisse-original-sm.webp",
+    "aspect": 0.2536
+  },
+  "plose-naturale": {
+    "src": "/products/plose-naturale.webp",
+    "sm": "/products/plose-naturale-sm.webp",
+    "aspect": 0.2609
+  },
+  "spezi-original": {
+    "src": "/products/spezi-original.webp",
+    "sm": "/products/spezi-original-sm.webp",
+    "aspect": 0.2515
+  }
+}

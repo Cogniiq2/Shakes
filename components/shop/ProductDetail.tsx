@@ -7,8 +7,6 @@ import type { Product } from "@/data/products";
 import { unitLabel } from "@/data/products";
 import { getCategory } from "@/data/categories";
 import { useCart } from "@/components/cart/CartProvider";
-import { Bottle } from "@/components/visual/Bottle";
-import { Crate } from "@/components/visual/Crate";
 import { CATEGORY_SURFACE, ProductVisual } from "@/components/visual/ProductVisual";
 import { PriceDisplay } from "./PriceDisplay";
 import { QuantitySelector } from "./QuantitySelector";
@@ -17,12 +15,9 @@ import { EASE } from "@/components/ui/Reveal";
 import { cn, formatEuro, formatPack } from "@/lib/format";
 import { site } from "@/lib/site";
 
-type View = "flasche" | "kasten" | "auswahl";
-
 export function ProductDetail({ product }: { product: Product }) {
   const { add } = useCart();
   const [qty, setQty] = useState(1);
-  const [view, setView] = useState<View>("flasche");
   const [added, setAdded] = useState(false);
   const category = getCategory(product.category);
   const unit = unitLabel(product, qty);
@@ -49,31 +44,8 @@ export function ProductDetail({ product }: { product: Product }) {
         {/* Galerie */}
         <div className="lg:col-span-7">
           <div className="lg:sticky lg:top-[96px]">
-            <Gallery product={product} view={view} />
-            <div className="mt-3 grid grid-cols-3 gap-3" role="tablist" aria-label="Produktansichten">
-              {(
-                [
-                  ["flasche", "Flasche"],
-                  ["kasten", product.packageType === "PET" || product.category === "wein-spezialitaeten" ? "Gebinde" : "Kasten"],
-                  ["auswahl", "Im Sortiment"],
-                ] as Array<[View, string]>
-              ).map(([v, label]) => (
-                <button
-                  key={v}
-                  type="button"
-                  role="tab"
-                  aria-selected={view === v}
-                  onClick={() => setView(v)}
-                  className={cn("group relative overflow-hidden rounded-[12px] border-2 text-left transition-colors", view === v ? "border-bottle" : "border-transparent hover:border-line")}
-                >
-                  <div className="aspect-[5/3.4]" style={{ background: CATEGORY_SURFACE[product.category] }}>
-                    <Thumb product={product} view={v} />
-                  </div>
-                  <span className="absolute bottom-2 left-2.5 rounded-[5px] bg-paper/85 px-2 py-0.5 text-[0.7rem] font-semibold backdrop-blur">{label}</span>
-                </button>
-              ))}
-            </div>
-            <p className="mt-3 text-[0.75rem] text-muted">Stilisierte Darstellung. Produktfotos folgen.</p>
+            <Gallery product={product} />
+            {product.image && <p className="mt-3 text-[0.75rem] text-muted">Abbildung: Originalflasche des Herstellers. Geliefert wird im Kasten.</p>}
           </div>
         </div>
 
@@ -194,70 +166,31 @@ function Badge({ children, tone }: { children: React.ReactNode; tone?: "amber" |
   );
 }
 
-/** Große Produktbühne mit sanfter Neigung zum Cursor */
-function Gallery({ product, view }: { product: Product; view: View }) {
+/** Große Produktbühne – Originalfoto mit sanfter Tiefenbewegung zum Cursor */
+function Gallery({ product }: { product: Product }) {
   const reduce = useReducedMotion();
-  const rx = useMotionValue(0);
-  const ry = useMotionValue(0);
-  const srx = useSpring(rx, { stiffness: 120, damping: 16 });
-  const sry = useSpring(ry, { stiffness: 120, damping: 16 });
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const x = useSpring(mx, { stiffness: 90, damping: 18 });
+  const y = useSpring(my, { stiffness: 90, damping: 18 });
   return (
     <div
-      className="relative aspect-[4/4.3] overflow-hidden rounded-[20px] [perspective:1200px] sm:aspect-[4/3.6]"
+      className="relative overflow-hidden rounded-[20px]"
       style={{ background: CATEGORY_SURFACE[product.category] }}
       onPointerMove={(e) => {
         if (reduce || e.pointerType !== "mouse") return;
         const r = e.currentTarget.getBoundingClientRect();
-        ry.set(((e.clientX - r.left) / r.width - 0.5) * 10);
-        rx.set(-((e.clientY - r.top) / r.height - 0.5) * 6);
+        mx.set(((e.clientX - r.left) / r.width - 0.5) * 14);
+        my.set(((e.clientY - r.top) / r.height - 0.5) * 8);
       }}
       onPointerLeave={() => {
-        rx.set(0);
-        ry.set(0);
+        mx.set(0);
+        my.set(0);
       }}
     >
-      <div aria-hidden className="absolute inset-0" style={{ background: "radial-gradient(60% 55% at 50% 40%, rgba(255,255,255,0.85), transparent 70%)" }} />
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-[16%] bg-black/[0.04]" />
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={view}
-          initial={{ opacity: 0, scale: 0.97, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 1.02 }}
-          transition={{ duration: 0.5, ease: EASE }}
-          className="absolute inset-0"
-        >
-          <motion.div style={{ rotateX: srx, rotateY: sry }} className="size-full [transform-style:preserve-3d]">
-            {view === "flasche" && (
-              <div className="flex size-full items-end justify-center pb-[8%]">
-                <Bottle visual={product.visual} id={`pdp-${product.slug}`} brand={product.brand} title={product.variety} className="h-[82%] w-auto drop-shadow-[0_30px_30px_rgba(0,0,0,0.18)]" />
-              </div>
-            )}
-            {view === "kasten" && (
-              <div className="flex size-full items-end justify-center px-[10%] pb-[8%]">
-                <Crate visual={product.visual} id={`pdp-${product.slug}`} brand={product.brand} className="h-auto w-full max-w-[520px]" />
-              </div>
-            )}
-            {view === "auswahl" && <ProductVisual product={product} variant="detail" className="size-full !bg-transparent" />}
-          </motion.div>
-        </motion.div>
-      </AnimatePresence>
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE }} style={{ x, y, scale: 1.03 }}>
+        <ProductVisual product={product} variant="detail" priority className="aspect-[4/4.4] sm:aspect-[4/3.9]" />
+      </motion.div>
     </div>
   );
-}
-
-function Thumb({ product, view }: { product: Product; view: View }) {
-  if (view === "flasche")
-    return (
-      <div className="flex size-full items-end justify-center pb-[6%]">
-        <Bottle visual={product.visual} id={`th-${product.slug}`} className="h-[84%] w-auto" condensation={false} />
-      </div>
-    );
-  if (view === "kasten")
-    return (
-      <div className="flex size-full items-end justify-center px-[14%] pb-[6%]">
-        <Crate visual={product.visual} id={`th-${product.slug}`} brand={product.brand} className="h-auto w-full" />
-      </div>
-    );
-  return <ProductVisual product={product} variant="card" className="size-full !bg-transparent" />;
 }

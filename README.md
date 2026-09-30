@@ -38,6 +38,19 @@ Three.js + React Three Fiber + drei (nur für die 3D-Produktgeschichte, per Lazy
 `/` · `/sortiment` · `/sortiment/[slug]` · `/privatkunden` · `/firmen-gastronomie` · `/liefergebiet` ·
 `/ueber-uns` · `/kontakt` · `/warenkorb` · `/bestellen` · `/konto` · `/impressum` · `/datenschutz` · 404
 
+## Produktfotos
+
+Originalfotos der Hersteller liegen in `assets/product-photos/<slug>.(png|webp|jpg)`. `npm run images`
+stellt sie frei (heller Hintergrund → transparent), beschneidet sie und erzeugt `public/products/<slug>.webp`
+(max. 1600 px) und `<slug>-sm.webp` (600 px) sowie das Manifest `data/product-images.json`.
+
+Überall, wo ein Foto vorliegt, erscheint automatisch das Originalfoto (Karten, Produktseite, Warenkorb,
+Suche, Kategorien, Hero, Szenen, Scroll-Geschichte). Ohne Foto zeigt die Seite einen neutralen
+Platzhalter „Produktfoto folgt“ – keine nachgebaute Flasche. Die Scroll-Geschichte bevorzugt Bayreuther Hell
+und Adelholzener Naturell und nutzt bis zu deren Fotos Kulmbacher Lager Hell und Plose Naturale.
+
+Bitte nur offizielle Herstellerfotos (Presse-/Händlerbereich) oder eigene Aufnahmen verwenden.
+
 ## Struktur
 
 | Pfad | Inhalt |

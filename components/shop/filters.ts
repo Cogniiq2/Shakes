@@ -74,7 +74,7 @@ export function applyFilters(list: Product[], f: Filters): Product[] {
     case "preis-ab":
       return out.sort((a, b) => priceOr(b, -Infinity) - priceOr(a, -Infinity));
     default:
-      return out.sort((a, b) => Number(b.featured) - Number(a.featured) || a.rank - b.rank);
+      return out.sort((a, b) => Number(!!b.image) - Number(!!a.image) || Number(b.featured) - Number(a.featured) || a.rank - b.rank);
   }
 }
 

@@ -4,8 +4,8 @@ import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTran
 import { Clock, MapPin, Phone, Recycle } from "lucide-react";
 import { useRef } from "react";
 import { Button } from "@/components/ui/Button";
-import { Bottle } from "@/components/visual/Bottle";
-import { getProduct } from "@/data/products";
+import { ProductPhoto } from "@/components/visual/ProductPhoto";
+import { getProduct, type Product } from "@/data/products";
 import { site } from "@/lib/site";
 import { EASE } from "@/components/ui/Reveal";
 
@@ -85,14 +85,20 @@ export function Hero() {
 
 /* ——— Signatur-Komposition: Flaschen in drei Tiefenebenen mit Pointer- und Scroll-Parallax ——— */
 
+/** Erste Wahl mit Foto, sonst Ersatz – wird automatisch „besser“, sobald Fotos ergänzt werden */
+function pick(...slugs: string[]): Product | undefined {
+  return slugs.map((s) => getProduct(s)).find((p) => p?.image);
+}
+
+// Maßstabsgetreue Reihe: Höhe in % der Bühne = BASE × (reale Höhe / 31 cm) × Tiefe
+const BASE = 72;
 const LAYERS = [
-  // depth: Stärke der Bewegung; x/bottom in % der Bühne; h: Höhe in % der Bühne
-  { slug: "plose-naturale", x: 12, h: 60, depth: 0.35, delay: 0.55, blur: true },
-  { slug: "maisels-weisse-original", x: 30, h: 70, depth: 0.6, delay: 0.45 },
-  { slug: "bayreuther-hell", x: 50, h: 64, depth: 1, delay: 0.35, hero: true },
-  { slug: "adelholzener-classic", x: 70, h: 70, depth: 0.7, delay: 0.5 },
-  { slug: "spezi-original", x: 87, h: 57, depth: 0.4, delay: 0.6, blur: true },
-];
+  { product: pick("adelholzener-classic", "plose-naturale"), x: 13, depth: 0.45, delay: 0.55, back: true },
+  { product: pick("maisels-weisse-original"), x: 31, depth: 0.7, delay: 0.45 },
+  { product: pick("bayreuther-hell", "kulmbacher-lager-hell"), x: 50, depth: 1, delay: 0.35 },
+  { product: pick("adelholzener-naturell", "fritz-kola"), x: 69, depth: 0.7, delay: 0.5 },
+  { product: pick("spezi-original"), x: 87, depth: 0.45, delay: 0.6, back: true },
+].filter((l): l is typeof l & { product: Product } => Boolean(l.product));
 
 function HeroComposition() {
   const ref = useRef<HTMLDivElement>(null);
@@ -143,7 +149,7 @@ function HeroComposition() {
 
       {/* Flaschen */}
       {LAYERS.map((l) => (
-        <HeroBottle key={l.slug} layer={l} sx={sx} sy={sy} reduce={!!reduce} />
+        <HeroBottle key={l.product.slug} layer={l} sx={sx} sy={sy} reduce={!!reduce} />
       ))}
 
       {/* Detail-Notizen */}
@@ -167,26 +173,26 @@ function HeroComposition() {
 }
 
 function HeroBottle({ layer, sx, sy, reduce }: { layer: (typeof LAYERS)[number]; sx: MotionValue<number>; sy: MotionValue<number>; reduce: boolean }) {
-  const p = getProduct(layer.slug)!;
+  const p = layer.product;
   const x = useTransform(sx, (v) => v * 26 * layer.depth);
   const y = useTransform(sy, (v) => v * 14 * layer.depth);
+  const h = BASE * (p.heightCm / 31) * (layer.back ? 0.9 : 1);
   return (
-    <div className="absolute bottom-[19%] -translate-x-1/2" style={{ left: `${layer.x}%`, height: `${layer.h}%`, zIndex: Math.round(layer.depth * 10) }}>
+    <div className="absolute bottom-[21%] -translate-x-1/2" style={{ left: `${layer.x}%`, height: `${h}%`, zIndex: Math.round(layer.depth * 10) }}>
       <motion.div className="h-full" style={{ x, y }}>
-      <motion.div
-        className="h-full"
-        initial={reduce ? { opacity: 0 } : { opacity: 0, y: 60 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.1, ease: EASE, delay: layer.delay }}
-      >
-        <Bottle
-          visual={p.visual}
-          id={`hero-${p.slug}`}
-          brand={p.brand}
-          title={p.variety}
-          className={layer.blur ? "h-full w-auto opacity-90 blur-[1.2px]" : "h-full w-auto drop-shadow-[0_30px_30px_rgba(0,0,0,0.35)]"}
-        />
-      </motion.div>
+        <motion.div
+          className="h-full"
+          initial={reduce ? { opacity: 0 } : { opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.1, ease: EASE, delay: layer.delay }}
+        >
+          <ProductPhoto
+            product={p}
+            dark
+            priority={!layer.back}
+            imgClassName={layer.back ? "brightness-[0.82] saturate-[0.9]" : "drop-shadow-[0_30px_30px_rgba(0,0,0,0.35)]"}
+          />
+        </motion.div>
       </motion.div>
     </div>
   );

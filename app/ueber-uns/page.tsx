@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/ui/SectionHeading";
 import { Parallax, Reveal } from "@/components/ui/Reveal";
 import { ArrowLink } from "@/components/ui/Button";
 import { Scene } from "@/components/visual/Scene";
-import { Crate } from "@/components/visual/Crate";
+import { ProductPhoto } from "@/components/visual/ProductPhoto";
 import { DeliveryMap } from "@/components/sections/DeliveryMap";
 import { getProduct } from "@/data/products";
 import { site } from "@/lib/site";
@@ -42,7 +42,7 @@ const chapters = [
 export default function UeberUnsPage() {
   const kulmbacher = getProduct("kulmbacher-lager-hell")!;
   const maisels = getProduct("maisels-weisse-original")!;
-  const adel = getProduct("adelholzener-classic")!;
+  const adel = getProduct("adelholzener-classic")?.image ? getProduct("adelholzener-classic")! : getProduct("plose-naturale")!;
   return (
     <>
       <PageHero
@@ -78,10 +78,12 @@ export default function UeberUnsPage() {
           </Reveal>
           <Reveal delay={0.14} className="overflow-hidden rounded-[18px] bg-stone lg:col-span-5">
             {/* REAL BUSINESS PHOTO RECOMMENDED HERE: Kästen / Lieferfahrzeug */}
-            <div className="flex h-full min-h-[220px] items-end justify-center gap-2 px-6 pb-6 pt-10">
-              <Crate visual={kulmbacher.visual} id="about-1" brand={kulmbacher.brand} className="w-1/3 max-w-[180px]" />
-              <Crate visual={maisels.visual} id="about-2" brand={maisels.brand} className="w-1/3 max-w-[180px]" />
-              <Crate visual={adel.visual} id="about-3" brand={adel.brand} className="w-1/3 max-w-[180px]" />
+            <div className="flex h-full min-h-[260px] items-end justify-center gap-6 px-6 pb-10 pt-10">
+              {[kulmbacher, maisels, adel].filter((p) => p.image).map((p) => (
+                <div key={p.slug} style={{ height: `${Math.round(200 * (p.heightCm / 31))}px` }}>
+                  <ProductPhoto product={p} size="sm" />
+                </div>
+              ))}
             </div>
           </Reveal>
         </div>

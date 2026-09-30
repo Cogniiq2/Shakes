@@ -1,4 +1,5 @@
 import type { CategorySlug } from "./categories";
+import productImages from "./product-images.json";
 
 /**
  * Produktdaten des Prototyps.
@@ -55,8 +56,14 @@ export interface Product {
   regional: boolean;
   origin?: string;
   featured: boolean;
-  /** Pfad zu echtem Produktfoto, sobald vorhanden. Bis dahin stilisierte Darstellung. */
+  /** Freigestelltes Produktfoto (public/products), sonst null → neutraler Platzhalter */
   image: string | null;
+  /** Kleine Variante für Karten und Thumbnails */
+  imageSm: string | null;
+  /** Seitenverhältnis Breite/Höhe des freigestellten Fotos */
+  imageAspect: number;
+  /** Reale Flaschenhöhe in cm – für maßstabsgetreue Kompositionen */
+  heightCm: number;
   available: boolean;
   gastroOnly: boolean;
   /** Empfohlene Reihenfolge */
@@ -64,7 +71,7 @@ export interface Product {
   visual: ProductVisual;
 }
 
-type Seed = Omit<Product, "id" | "totalVolume" | "image" | "available" | "gastroOnly" | "featured" | "regional" | "alcoholic" | "alcoholFree" | "rank"> &
+type Seed = Omit<Product, "id" | "totalVolume" | "image" | "imageSm" | "imageAspect" | "heightCm" | "available" | "gastroOnly" | "featured" | "regional" | "alcoholic" | "alcoholFree" | "rank"> &
   Partial<Pick<Product, "image" | "available" | "gastroOnly" | "featured" | "regional" | "alcoholic" | "alcoholFree">>;
 
 const seeds: Seed[] = [
@@ -96,7 +103,7 @@ const seeds: Seed[] = [
   },
   {
     slug: "plose-naturale", brand: "Plose", name: "Plose Naturale", variety: "Ohne Kohlensäure",
-    category: "wasser", packQuantity: 12, bottleVolume: 0.75, price: null, deposit: 3.3, packageType: "Glas", returnType: "Mehrweg",
+    category: "wasser", packQuantity: 12, bottleVolume: 1.0, price: null, deposit: 3.3, packageType: "Glas", returnType: "Mehrweg",
     visual: { shape: "water", glass: "clear", liquid: "#E2EEF0", label: "#F4F1EA", labelInk: "#2A5B8A", cap: "#2A5B8A", crate: "#2B3A45" },
   },
   {
@@ -226,19 +233,38 @@ const seeds: Seed[] = [
   },
 ];
 
-export const products: Product[] = seeds.map((s, i) => ({
-  featured: false,
-  regional: false,
-  alcoholic: false,
-  alcoholFree: false,
-  available: true,
-  gastroOnly: false,
-  image: null,
-  ...s,
-  id: `p_${String(i + 1).padStart(3, "0")}`,
-  totalVolume: Math.round(s.packQuantity * s.bottleVolume * 100) / 100,
-  rank: i,
-}));
+/** Typische Flaschenhöhen (cm) je Form und Füllmenge */
+function bottleHeight(shape: BottleShape, volume: number): number {
+  if (shape === "pet") return volume >= 1.5 ? 32 : 24;
+  if (shape === "water" || shape === "juice") return volume >= 1 ? 31 : volume >= 0.7 ? 29 : 22;
+  if (shape === "longneck") return 22.5;
+  if (shape === "steinie") return 18;
+  if (shape === "weizen") return 25.5;
+  if (shape === "bocksbeutel") return 24;
+  return 25;
+}
+
+export const products: Product[] = seeds.map((s, i) => {
+  const photo = (productImages as Record<string, { src: string; sm: string; aspect: number }>)[s.slug];
+  return {
+    featured: false,
+    regional: false,
+    alcoholic: false,
+    alcoholFree: false,
+    available: true,
+    gastroOnly: false,
+    ...s,
+    image: photo?.src ?? null,
+    imageSm: photo?.sm ?? null,
+    imageAspect: photo?.aspect ?? 0.3,
+    heightCm: bottleHeight(s.visual.shape, s.bottleVolume),
+    id: `p_${String(i + 1).padStart(3, "0")}`,
+    totalVolume: Math.round(s.packQuantity * s.bottleVolume * 100) / 100,
+    rank: i,
+  };
+});
+
+export const hasPhoto = (p: Product) => p.image !== null;
 
 export const featuredOrder = [
   "bayreuther-hell",
@@ -256,7 +282,9 @@ export function getProduct(slug: string): Product | undefined {
 }
 
 export function getFeatured(): Product[] {
-  return featuredOrder.map((s) => getProduct(s)).filter((p): p is Product => Boolean(p));
+  // Fotografierte Produkte zuerst, sonst Reihenfolge wie kuratiert
+  const list = featuredOrder.map((s) => getProduct(s)).filter((p): p is Product => Boolean(p));
+  return [...list.filter((p) => p.image), ...list.filter((p) => !p.image)];
 }
 
 export function getRelated(product: Product, limit = 4): Product[] {

@@ -13,7 +13,29 @@ export interface StoryStop {
   env: { bg: string; glow: string; rim: string };
 }
 
-const raw: Array<Omit<StoryStop, "product"> & { slug: string }> = [
+type RawStop = Omit<StoryStop, "product"> & { slug: string };
+
+/** Ersatz-Stationen, solange für die Wunschprodukte noch kein Originalfoto vorliegt */
+const substitutes: Record<string, RawStop> = {
+  "bayreuther-hell": {
+    slug: "kulmbacher-lager-hell",
+    kicker: "Regional aus Kulmbach",
+    line: "Ein Helles aus Kulmbach.",
+    word: "Kulmbach",
+    meta: ["Glas Mehrweg", "20 × 0,5 L", "Regional"],
+    env: { bg: "#102A23", glow: "#C88A38", rim: "#E7B56C" },
+  },
+  "adelholzener-naturell": {
+    slug: "plose-naturale",
+    kicker: "Mineralwasser · still",
+    line: "Natürliches Mineralwasser aus Südtirol.",
+    word: "Naturale",
+    meta: ["Glas Mehrweg", "12 × 1,0 L", "Ohne Kohlensäure"],
+    env: { bg: "#1A292C", glow: "#8FB3BE", rim: "#DDEBEE" },
+  },
+};
+
+const raw: RawStop[] = [
   {
     slug: "bayreuther-hell",
     kicker: "Regional aus Bayreuth",
@@ -56,4 +78,8 @@ const raw: Array<Omit<StoryStop, "product"> & { slug: string }> = [
   },
 ];
 
-export const storyStops: StoryStop[] = raw.map(({ slug, ...rest }) => ({ ...rest, product: getProduct(slug)! }));
+export const storyStops: StoryStop[] = raw.map((stop) => {
+  const chosen = getProduct(stop.slug)?.image || !substitutes[stop.slug] ? stop : substitutes[stop.slug];
+  const { slug, ...rest } = chosen;
+  return { ...rest, product: getProduct(slug)! };
+});

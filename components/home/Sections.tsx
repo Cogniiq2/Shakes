@@ -7,7 +7,7 @@ import { ProductCard } from "@/components/shop/ProductCard";
 import { Eyebrow, SectionHeading } from "@/components/ui/SectionHeading";
 import { Parallax, Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { ArrowLink, Button } from "@/components/ui/Button";
-import { Crate } from "@/components/visual/Crate";
+import { ProductPhoto } from "@/components/visual/ProductPhoto";
 import { Scene } from "@/components/visual/Scene";
 import { RatingDisplay } from "@/components/sections/Shared";
 import { DeliveryBlock } from "./DeliveryBlock";
@@ -95,7 +95,11 @@ const regional = [
 ];
 
 export function RegionalSection() {
-  const hell = getProduct("bayreuther-hell")!;
+  // Regionale Biere mit vorhandenem Originalfoto (Bayreuth zuerst)
+  const lineup = ["bayreuther-hell", "maisels-weisse-original", "kulmbacher-lager-hell", "moenchshof-kellerbier", "eku-pils"]
+    .map((s) => getProduct(s))
+    .filter((p): p is NonNullable<ReturnType<typeof getProduct>> => Boolean(p?.image))
+    .slice(0, 3);
   return (
     <section className="grain relative overflow-hidden bg-bottle py-24 text-ivory md:py-36">
       <div aria-hidden className="absolute right-[-10%] top-[10%] size-[620px] rounded-full bg-amber/15 blur-[130px]" />
@@ -125,12 +129,16 @@ export function RegionalSection() {
         </div>
         <Reveal delay={0.1} className="relative lg:col-span-5 lg:col-start-8">
           <Parallax range={36}>
-            <div className="relative mx-auto max-w-[460px]">
-              <div aria-hidden className="absolute inset-x-[8%] bottom-[6%] h-[40%] rounded-full bg-amber/25 blur-[60px]" />
-              <Crate visual={hell.visual} id="regional" brand={hell.brand} className="relative w-full drop-shadow-[0_40px_50px_rgba(0,0,0,0.45)]" />
+            <div className="relative mx-auto flex h-[420px] max-w-[460px] items-end justify-center gap-[4%] sm:h-[520px]">
+              <div aria-hidden className="absolute inset-x-[4%] bottom-[2%] h-[45%] rounded-full bg-amber/25 blur-[60px]" />
+              {lineup.map((p, i) => (
+                <div key={p.slug} className="relative" style={{ height: `${(i === 1 ? 100 : 90) * (p.heightCm / 25.5)}%`, zIndex: i === 1 ? 2 : 1 }}>
+                  <ProductPhoto product={p} dark imgClassName="drop-shadow-[0_34px_40px_rgba(0,0,0,0.5)]" />
+                </div>
+              ))}
             </div>
           </Parallax>
-          <p className="mt-6 text-center text-[0.78rem] text-ivory/45">Bayreuther Hell · 20 × 0,5 L · Glas Mehrweg</p>
+          <p className="mt-10 text-center text-[0.78rem] text-ivory/45">{lineup.map((p) => p.name).join(" · ")}</p>
         </Reveal>
       </div>
 
