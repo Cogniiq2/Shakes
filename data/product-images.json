@@ -14,6 +14,16 @@
     "sm": "/products/adelholzener-sanft-sm.webp",
     "aspect": 0.2768
   },
+  "augustiner-hell": {
+    "src": "/products/augustiner-hell.webp",
+    "sm": "/products/augustiner-hell-sm.webp",
+    "aspect": 0.3004
+  },
+  "bayreuther-hell": {
+    "src": "/products/bayreuther-hell.webp",
+    "sm": "/products/bayreuther-hell-sm.webp",
+    "aspect": 0.3045
+  },
   "bionade-holunder": {
     "src": "/products/bionade-holunder.webp",
     "sm": "/products/bionade-holunder-sm.webp",
@@ -23,6 +33,16 @@
     "src": "/products/coca-cola-zero.webp",
     "sm": "/products/coca-cola-zero-sm.webp",
     "aspect": 0.255
+  },
+  "coca-cola": {
+    "src": "/products/coca-cola.webp",
+    "sm": "/products/coca-cola-sm.webp",
+    "aspect": 0.255
+  },
+  "frankenbrunnen-medium": {
+    "src": "/products/frankenbrunnen-medium.webp",
+    "sm": "/products/frankenbrunnen-medium-sm.webp",
+    "aspect": 0.2693
   },
   "fritz-kola": {
     "src": "/products/fritz-kola.webp",
