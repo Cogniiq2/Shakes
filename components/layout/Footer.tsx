@@ -13,7 +13,6 @@ const columns = [
       { href: "/sortiment?kategorie=softdrinks", label: "Softdrinks" },
       { href: "/sortiment?kategorie=saefte-schorlen", label: "Säfte" },
       { href: "/sortiment?kategorie=alkoholfrei", label: "Alkoholfrei" },
-      { href: "/sortiment?kategorie=wein-spezialitaeten", label: "Wein" },
     ],
   },
   {

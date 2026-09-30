@@ -12,7 +12,6 @@ const COMPOSITION: Record<string, string[]> = {
   softdrinks: ["coca-cola-zero", "spezi-original", "bionade-holunder", "fritz-kola"],
   "saefte-schorlen": ["adelholzener-apfelschorle", "libella-orange", "frucade-apfelschorle"],
   alkoholfrei: ["jever-fun", "maisels-weisse-alkoholfrei"],
-  "wein-spezialitaeten": ["schmitt-domina-trocken", "schmitt-silvaner-trocken"],
 };
 
 export function CategoryCard({ category, className, size = "md", index }: { category: Category; className?: string; size?: "md" | "lg" | "wide"; index?: number }) {

@@ -51,13 +51,6 @@ export const categories: Category[] = [
     description: "Alkoholfreie Biere und Weissbiere mit Charakter.",
     tone: { bg: "#C9D3BF", fg: "#1D2B1C", accent: "#5E7A4C" },
   },
-  {
-    slug: "wein-spezialitaeten",
-    name: "Wein & Spezialitäten",
-    short: "Franken im Bocksbeutel",
-    description: "Ausgewählte Weine und Besonderes für den Anlass.",
-    tone: { bg: "#693A36", fg: "#F6F3ED", accent: "#C9A27A" },
-  },
 ];
 
 export function getCategory(slug: CategorySlug): Category {

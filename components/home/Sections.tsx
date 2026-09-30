@@ -54,11 +54,10 @@ const layout: Record<string, string> = {
   bier: "lg:col-span-7 lg:row-span-2",
   wasser: "lg:col-span-5",
   softdrinks: "lg:col-span-5",
-  "saefte-schorlen": "lg:col-span-4",
-  alkoholfrei: "lg:col-span-4",
-  "wein-spezialitaeten": "lg:col-span-4",
+  "saefte-schorlen": "lg:col-span-6",
+  alkoholfrei: "lg:col-span-6",
 };
-const order = ["bier", "wasser", "softdrinks", "saefte-schorlen", "alkoholfrei", "wein-spezialitaeten"];
+const order = ["bier", "wasser", "softdrinks", "saefte-schorlen", "alkoholfrei"];
 
 export function CategorySection() {
   const ordered = order.map((s) => categories.find((c) => c.slug === s)!);
@@ -251,7 +250,7 @@ export function AudienceSection() {
 
 /* ——— 7 · Unabhängig ——— */
 export function IndependentSection() {
-  const regionalBrands = new Set(["Bayreuther Bierbrauerei", "Maisel's", "Kulmbacher", "Mönchshof", "EKU", "Frankenbrunnen", "Schmitt"]);
+  const regionalBrands = new Set(["Bayreuther Bierbrauerei", "Maisel's", "Kulmbacher", "Mönchshof", "EKU", "Frankenbrunnen"]);
   return (
     <section className="relative overflow-hidden py-24 md:py-36">
       <div className="container-x grid gap-14 lg:grid-cols-12">

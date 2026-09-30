@@ -23,7 +23,6 @@ const tabs: Array<{ slug: CategorySlug | "alle"; name: string }> = [
   { slug: "saefte-schorlen", name: "Säfte & Schorlen" },
   { slug: "bier", name: "Bier" },
   { slug: "alkoholfrei", name: "Alkoholfrei" },
-  { slug: "wein-spezialitaeten", name: "Wein & Spezialitäten" },
 ];
 
 export function ShopClient({ initial }: { initial: Partial<Filters> }) {

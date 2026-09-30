@@ -219,18 +219,6 @@ const seeds: Seed[] = [
     category: "alkoholfrei", packQuantity: 20, bottleVolume: 0.5, price: null, deposit: 3.1, packageType: "Glas", returnType: "Mehrweg", origin: "Friesland", alcoholFree: true,
     visual: { shape: "euro", glass: "#1E4A2B", label: "#7FAE3E", labelInk: "#FFFFFF", cap: "#7FAE3E", crate: "#0F3B22" },
   },
-
-  // ——— Wein & Spezialitäten ———
-  {
-    slug: "schmitt-silvaner-trocken", brand: "Schmitt", name: "Silvaner trocken", variety: "Frankenwein · Weiß",
-    category: "wein-spezialitaeten", packQuantity: 6, bottleVolume: 0.75, price: null, deposit: 0, packageType: "Glas", returnType: "Einweg", regional: true, origin: "Franken", alcoholic: true,
-    visual: { shape: "bocksbeutel", glass: "#3D4A26", label: "#F3EDDF", labelInk: "#3D4A26", cap: "#C9A27A", crate: "#693A36" },
-  },
-  {
-    slug: "schmitt-domina-trocken", brand: "Schmitt", name: "Domina trocken", variety: "Frankenwein · Rot",
-    category: "wein-spezialitaeten", packQuantity: 6, bottleVolume: 0.75, price: null, deposit: 0, packageType: "Glas", returnType: "Einweg", regional: true, origin: "Franken", alcoholic: true,
-    visual: { shape: "bocksbeutel", glass: "#2A1A16", label: "#F3EDDF", labelInk: "#693A36", cap: "#693A36", crate: "#693A36" },
-  },
 ];
 
 /** Typische Flaschenhöhen (cm) je Form und Füllmenge */
