@@ -1,4 +1,29 @@
 {
+  "adelholzener-apfelschorle": {
+    "src": "/products/adelholzener-apfelschorle.webp",
+    "sm": "/products/adelholzener-apfelschorle-sm.webp",
+    "aspect": 0.2588
+  },
+  "adelholzener-classic-gastro": {
+    "src": "/products/adelholzener-classic-gastro.webp",
+    "sm": "/products/adelholzener-classic-gastro-sm.webp",
+    "aspect": 0.2668
+  },
+  "adelholzener-sanft": {
+    "src": "/products/adelholzener-sanft.webp",
+    "sm": "/products/adelholzener-sanft-sm.webp",
+    "aspect": 0.2768
+  },
+  "bionade-holunder": {
+    "src": "/products/bionade-holunder.webp",
+    "sm": "/products/bionade-holunder-sm.webp",
+    "aspect": 0.2522
+  },
+  "coca-cola-zero": {
+    "src": "/products/coca-cola-zero.webp",
+    "sm": "/products/coca-cola-zero-sm.webp",
+    "aspect": 0.255
+  },
   "fritz-kola": {
     "src": "/products/fritz-kola.webp",
     "sm": "/products/fritz-kola-sm.webp",

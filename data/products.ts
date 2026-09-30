@@ -134,7 +134,7 @@ const seeds: Seed[] = [
     visual: { shape: "longneck", glass: "clear", liquid: "#2A140B", label: "#C8102E", labelInk: "#FFFFFF", cap: "#C8102E", crate: "#C8102E" },
   },
   {
-    slug: "coca-cola-zero", brand: "Coca-Cola", name: "Coca-Cola Zero", variety: "Cola ohne Zucker",
+    slug: "coca-cola-zero", brand: "Coca-Cola", name: "Coca-Cola Zero Sugar", variety: "Cola ohne Zucker",
     category: "softdrinks", packQuantity: 24, bottleVolume: 0.33, price: null, deposit: 3.42, packageType: "Glas", returnType: "Mehrweg",
     visual: { shape: "longneck", glass: "clear", liquid: "#2A140B", label: "#151515", labelInk: "#E03A3E", cap: "#151515", crate: "#C8102E" },
   },
@@ -146,13 +146,13 @@ const seeds: Seed[] = [
   {
     slug: "bionade-holunder", brand: "Bionade", name: "Bionade Holunder", variety: "Bio-Erfrischungsgetränk",
     category: "softdrinks", packQuantity: 24, bottleVolume: 0.33, price: null, deposit: 3.42, packageType: "Glas", returnType: "Mehrweg",
-    visual: { shape: "steinie", glass: "clear", liquid: "#7A3B5C", label: "#5E2F6B", labelInk: "#FFFFFF", cap: "#5E2F6B", crate: "#3D5F3A" },
+    visual: { shape: "longneck", glass: "clear", liquid: "#7A3B5C", label: "#5E2F6B", labelInk: "#FFFFFF", cap: "#5E2F6B", crate: "#3D5F3A" },
   },
 
   // ——— Säfte & Schorlen ———
   {
     slug: "adelholzener-apfelschorle", brand: "Adelholzener", name: "Adelholzener Apfelschorle", variety: "Apfelschorle",
-    category: "saefte-schorlen", packQuantity: 12, bottleVolume: 0.75, price: null, deposit: 3.3, packageType: "Glas", returnType: "Mehrweg",
+    category: "saefte-schorlen", packQuantity: 12, bottleVolume: 0.5, price: null, deposit: 3.3, packageType: "PET", returnType: "Mehrweg",
     visual: { shape: "water", glass: "clear", liquid: "#E1B35A", label: "#3E7D3A", labelInk: "#FFFFFF", cap: "#3E7D3A", crate: "#1E4B7A" },
   },
   {
@@ -235,10 +235,10 @@ const seeds: Seed[] = [
 
 /** Typische Flaschenhöhen (cm) je Form und Füllmenge */
 function bottleHeight(shape: BottleShape, volume: number): number {
-  if (shape === "pet") return volume >= 1.5 ? 32 : 24;
+  if (shape === "pet") return volume >= 1.5 ? 32 : volume >= 1 ? 29 : 21.5;
   if (shape === "water" || shape === "juice") return volume >= 1 ? 31 : volume >= 0.7 ? 29 : 22;
   if (shape === "longneck") return 22.5;
-  if (shape === "steinie") return 18;
+  if (shape === "steinie") return volume <= 0.25 ? 20 : 18;
   if (shape === "weizen") return 25.5;
   if (shape === "bocksbeutel") return 24;
   return 25;

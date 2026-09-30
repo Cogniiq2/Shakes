@@ -16,14 +16,14 @@ const SCENES: Record<SceneKind, { bg: string; light: string; surface: string; da
     bg: "#EDE5D6",
     light: "radial-gradient(60% 55% at 75% 18%, rgba(255,247,230,0.95), transparent 70%)",
     surface: "#DCCFB8",
-    slugs: ["adelholzener-classic", "plose-naturale", "bayreuther-hell", "kulmbacher-lager-hell", "spezi-original"],
+    slugs: ["adelholzener-classic", "plose-naturale", "bayreuther-hell", "kulmbacher-lager-hell", "bionade-holunder", "spezi-original"],
     max: 3,
   },
   office: {
     bg: "#DEE4E1",
     light: "radial-gradient(70% 60% at 20% 8%, rgba(255,255,255,0.95), transparent 70%)",
     surface: "#C9D1CD",
-    slugs: ["adelholzener-naturell", "plose-naturale", "adelholzener-classic", "spezi-original", "fritz-kola"],
+    slugs: ["adelholzener-naturell", "adelholzener-sanft", "adelholzener-apfelschorle", "coca-cola-zero", "plose-naturale"],
     max: 3,
   },
   gastro: {

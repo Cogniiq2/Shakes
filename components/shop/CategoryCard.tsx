@@ -7,10 +7,10 @@ import { cn } from "@/lib/format";
 
 /** Art-direktierte Kategorie-Kachel mit individueller Flaschen-Komposition */
 const COMPOSITION: Record<string, string[]> = {
-  wasser: ["plose-naturale", "adelholzener-classic", "gerolsteiner-sprudel"],
+  wasser: ["adelholzener-sanft", "plose-naturale", "adelholzener-classic", "gerolsteiner-sprudel"],
   bier: ["kulmbacher-lager-hell", "bayreuther-hell", "maisels-weisse-original", "moenchshof-kellerbier"],
-  softdrinks: ["coca-cola", "spezi-original", "fritz-kola"],
-  "saefte-schorlen": ["libella-orange", "adelholzener-apfelschorle", "frucade-apfelschorle"],
+  softdrinks: ["coca-cola-zero", "spezi-original", "bionade-holunder", "fritz-kola"],
+  "saefte-schorlen": ["adelholzener-apfelschorle", "libella-orange", "frucade-apfelschorle"],
   alkoholfrei: ["jever-fun", "maisels-weisse-alkoholfrei"],
   "wein-spezialitaeten": ["schmitt-domina-trocken", "schmitt-silvaner-trocken"],
 };
