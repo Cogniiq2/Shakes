@@ -9,6 +9,16 @@
     "sm": "/products/adelholzener-classic-gastro-sm.webp",
     "aspect": 0.2668
   },
+  "adelholzener-classic": {
+    "src": "/products/adelholzener-classic.webp",
+    "sm": "/products/adelholzener-classic-sm.webp",
+    "aspect": 0.2757
+  },
+  "adelholzener-naturell": {
+    "src": "/products/adelholzener-naturell.webp",
+    "sm": "/products/adelholzener-naturell-sm.webp",
+    "aspect": 0.2744
+  },
   "adelholzener-sanft": {
     "src": "/products/adelholzener-sanft.webp",
     "sm": "/products/adelholzener-sanft-sm.webp",
